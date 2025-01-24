@@ -103,7 +103,8 @@ ROOM 3
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 NAME Dark room
-EXT 15,5 4 0,5
+ITM 3 4,9
+EXT 15,5 4 0,5 FX wave DLG b
 PAL 1
 TUNE 4
 
@@ -111,7 +112,7 @@ ROOM 4
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 0,a,a,a,a,a,a,a,a,a,a,a,0,0,0,0
-0,a,0,0,0,0,0,0,0,0,0,a,0,0,0,0
+0,a,0,0,b,c,0,0,0,0,0,a,0,0,0,0
 a,a,0,0,0,0,0,0,e,0,0,a,0,0,0,0
 0,0,0,0,0,0,0,0,0,0,0,a,0,0,0,0
 a,a,0,0,0,0,0,0,e,0,0,a,0,0,0,0
@@ -125,6 +126,7 @@ a,a,0,0,0,0,0,0,e,0,0,a,0,0,0,0
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 NAME Dark Room 2
+ITM 4 10,9
 END 5 0,5
 PAL 3
 TUNE 4
@@ -218,7 +220,7 @@ SPR A
 01111110
 10111101
 00111100
-00100100
+00000100
 >
 00000000
 00011000
@@ -227,7 +229,7 @@ SPR A
 01111110
 00111100
 00111100
-00100100
+00100000
 POS 0 3,4
 
 SPR a
@@ -275,6 +277,97 @@ NAME Cat 2
 DLG 4
 POS 3 9,9
 
+SPR c
+00000010
+00000100
+00010011
+00000111
+00110000
+00110000
+01110000
+10000000
+NAME blood 1
+DLG 9
+POS 4 7,4
+
+SPR d
+01000010
+10000100
+10010011
+10001111
+00110100
+00110000
+01110000
+10000100
+NAME blood 2
+DLG 8
+POS 4 7,9
+
+SPR e
+00000000
+00000000
+00000000
+00111100
+01111110
+00111101
+00111100
+00000000
+NAME body
+DLG a
+POS 4 7,5
+
+SPR f
+01000010
+00111100
+00011000
+00111100
+01111110
+01111110
+00111100
+00100100
+NAME Demon
+DLG c
+POS 4 10,5
+
+SPR g
+00000010
+00000100
+00010011
+00000111
+00110000
+00110000
+01110000
+10000000
+NAME blood 3
+DLG 9
+POS 3 3,3
+
+SPR h
+01000010
+10000100
+10010011
+10001111
+00110100
+00110000
+01110000
+10000100
+NAME blood 4
+DLG 8
+POS 3 3,5
+
+SPR i
+00000000
+00000000
+00000000
+00111100
+01111110
+00111101
+00111100
+00000000
+NAME body 2
+DLG a
+POS 3 3,4
+
 ITM 0
 00000011
 00000111
@@ -312,6 +405,48 @@ ITM 2
 NAME Cross
 DLG 7
 
+ITM 3
+00000011
+00000111
+00001110
+00011100
+00111001
+00110000
+01000000
+10000000
+>
+00000011
+00000111
+00001110
+00011100
+00111000
+00110000
+01000000
+10000000
+NAME knife 2
+DLG d
+
+ITM 4
+00000011
+00000111
+00001110
+00011100
+00111001
+00110000
+01000000
+10000000
+>
+00000011
+00000111
+00001110
+00011100
+00111000
+00110000
+01000000
+10000000
+NAME knife 3
+DLG e
+
 DLG 0
 This is my cat. What did he see
 NAME cat dialog
@@ -342,8 +477,12 @@ NAME Cat 2 dialog
 
 DLG 5
 """
-The police have found you. They saw the gruesome 
-scene of the house. You are going to prison
+{
+  - {item "4"} == 1 ?
+    {clr 1}{wvy}You know what you have to do.{/wvy}{/clr}{property locked false}{pg}The police have found you.{pg}They saw the gruesome scene at the house.{pg}You are going to prison.
+  - else ?
+    {clr 1}{wvy}Pick it up and finish it!{/wvy}{/clr}{property locked true}
+}
 """
 NAME ending 1
 
@@ -351,7 +490,8 @@ DLG 6
 """
 {
   - {item "2"} == 1 ?
-    {property locked false}{wvy}You have a strong headache.{/wvy}
+    {property locked false}{wvy}You have a strong headache.{/wvy}{pg}{wvy}"You think that will save you!"{/wvy}{pg}(Unknown growl){pg}{wvy}"We made a deal and you will follow
+    through!"{/wvy}
   - else ?
     {property locked true}{wvy}A powerful force is blocking the door.{/wvy}
 }
@@ -361,6 +501,41 @@ NAME locked exit 2
 DLG 7
 What is this cross doing here.
 NAME Cross dialog
+
+DLG 8
+{clr 1}{wvy}Who's blood is this!?{/wvy}{/clr}
+NAME blood 2 dialog
+
+DLG 9
+{clr 1}{wvy}What is this blood doing here!?{/wvy}{/clr}
+NAME blood 1 dialog
+
+DLG a
+{clr 1}{wvy}What is this!{/wvy}{/clr}
+NAME sprite e dialog
+
+DLG b
+"""
+{
+  - {item "3"} == 1 ?
+    {property locked false}{clr 1}{wvy}Follow through on your deal!{/wvy}{/clr}
+  - else ?
+    {property locked true}{clr 1}{wvy}No!! Pick it up!{/wvy}{/clr}
+}
+"""
+NAME locked exit 3
+
+DLG c
+{clr 1}{wvy}Follow through on your deal!{/wvy}{/clr}{pg}{clr 1}{wvy}(Demon growl){/wvy}{/clr}{pg}{clr 1}{wvy}They belong to me now!{/wvy}{/clr}
+NAME Demon dialog
+
+DLG d
+{clr 1}{wvy}Why is it here again!?{/wvy}{/clr}
+NAME knife 2 dialog
+
+DLG e
+{clr 1}{wvy}You can't escape your fate!{/wvy}{/clr}
+NAME knife 3 dialog
 
 VAR a
 42
